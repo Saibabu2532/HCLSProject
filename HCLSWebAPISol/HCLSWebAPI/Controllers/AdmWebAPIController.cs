@@ -78,7 +78,7 @@ namespace HCLSWebAPI.Controllers
                 }
                 else
                 {
-                    return BadRequest("Records are Not Available in the Database.....!");
+                    return BadRequest("Record is Not Available in the Database.....!");
                 }
             }
             catch (Exception ex)
