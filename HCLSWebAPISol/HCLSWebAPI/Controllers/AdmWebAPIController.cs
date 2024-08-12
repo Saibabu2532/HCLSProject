@@ -31,7 +31,7 @@ namespace HCLSWebAPI.Controllers
                 }
                 else
                 {
-                    return BadRequest("Record is Not Register.....!");
+                    return BadRequest("Records are Not Register.....!");
                 }
             }
             catch (Exception ex)
