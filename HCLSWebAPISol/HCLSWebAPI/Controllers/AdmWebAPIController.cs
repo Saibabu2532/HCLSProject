@@ -88,6 +88,29 @@ namespace HCLSWebAPI.Controllers
 
         }
 
+        [HttpGet]
+        [Route("AdminByAdminEmail")]
+        public async Task<IActionResult> AdminByAdminEmail(string Email)
+        {
+            try
+            {
+                var Adm = await IAdmRef.GetAdminByAdminEmail(Email);
+                if (Adm != null)
+                {
+                    return Ok(Adm);
+                }
+                else
+                {
+                    return BadRequest("Record is Not Available in the Database.....!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
+            }
+
+        }
+
 
         [HttpPut]
         [Route("UpadteAdmin")]
