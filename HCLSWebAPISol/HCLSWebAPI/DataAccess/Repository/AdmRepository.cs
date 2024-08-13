@@ -43,5 +43,10 @@ namespace HCLSWebAPI.DataAccess.Repository
         {
           return await AdmDb.Admins.Where(x=>x.Email==Email && Password==Password).SingleOrDefaultAsync();
         }
+
+        public async Task<Admin> GetAdminByAdminEmail(string EMail)
+        {
+          return await AdmDb.Admins.Where(x=>x.Email==EMail).SingleOrDefaultAsync();
+        }
     }
 }
