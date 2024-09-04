@@ -11,7 +11,7 @@ namespace HCLSWebAPI.DataAccess.IRepository
         Task<int> AdminRegistrations(Admin Adm);
         Task<int> UpadteAdmin(Admin Adm);
        Task<int> DeleteAdmin(int AdminTypeId);
-        Task<Admin> GetLoginByEmailAndPassword(string Email, string Password);
+        Task<Admin> LoginByEmailAndPassword(string Email, string Password);
         Task<Admin> GetAdminByAdminEmail(string EMail);
     }
 }

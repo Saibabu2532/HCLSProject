@@ -28,6 +28,7 @@ namespace HCLSWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddSwaggerGen();
             services.AddControllers();
             services.AddDbContext<HCLSContextPro>(options => options.UseSqlServer(Configuration.GetConnectionString("ConStr")));
@@ -43,7 +44,20 @@ namespace HCLSWebAPI
                 app.UseDeveloperExceptionPage();
             }
 
+        
+            app.UseCors(builder =>
+            {
+               builder
+              .AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+
+              });
+
+
             app.UseRouting();
+
+            
 
             app.UseSwagger();
             app.UseSwaggerUI(c => {

@@ -71,15 +71,9 @@ namespace HCLSWebAPI.Controllers
         {
             try
             {
-                var Adm = await IAdmRef.GetLoginByEmailAndPassword(Email,Password);
-                if (Adm != null)
-                {
-                    return Ok(Adm);
-                }
-                else
-                {
-                    return BadRequest("Record is Not Available in the Database.....!");
-                }
+                var Adm = await IAdmRef.LoginByEmailAndPassword(Email,Password);
+                return Ok(Adm);
+
             }
             catch (Exception ex)
             {
