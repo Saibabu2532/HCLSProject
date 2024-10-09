@@ -1,78 +1,78 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using HCLSWebAPI.DataAccess;
-using System.Collections.Generic;
+﻿using HCLSWebAPI.DataAccess.IRepository;
 using HCLSWebAPI.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System;
-using HCLSWebAPI.DataAccess.IRepository;
 
 namespace HCLSWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdmtypWebAPIController : ControllerBase
+    public class LabWebAPIController : ControllerBase
     {
-        public IAdmtypRepository IAdmtypRef;
-        public AdmtypWebAPIController(IAdmtypRepository _admtypRef)
-        {
-            IAdmtypRef = _admtypRef;
+        public ILabRepository LabRef;
+        public LabWebAPIController(ILabRepository labRef)
+        { 
+            LabRef = labRef;
         }
 
-
         [HttpGet]
-        [Route("AllAdminTypes")]
-        public async Task<IActionResult> AllAdminTypes()
+        [Route("GetAllLabs")]
+
+        public async Task<IActionResult> GetAllLabs()
         {
             try
             {
-                var ListAdmtyp = await IAdmtypRef.AllAdminTypes();
-                if (ListAdmtyp.Count > 0)
+                var LabList = await LabRef.GetAllLabs();
+                if (LabList.Count > 0)
                 {
-                    return Ok(ListAdmtyp);
+                    return Ok(LabList);
                 }
                 else
                 {
                     return BadRequest("Records are Not Available in the Database.....!");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
+            }
+        }
+
+        [HttpGet]
+        [Route("GetLabById")]
+
+        public async Task<IActionResult> GetLabById(int LabId)
+        {
+            try
+            {
+                var lb = await LabRef.GetLabById(LabId);
+                if (lb != null)
+                {
+                    return Ok(lb);
+                }
+                else
+                {
+                    return BadRequest("Records are Not Available in the Database.....!");
+
                 }
             }
             catch (Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
             }
-
-        }
-
-        [HttpGet]
-        [Route("GetAdminTypeID")]
-        public async Task<IActionResult> GetAdminTypeID(int AdminTypeId)
-        {
-            try
-            {
-                var Admt = await IAdmtypRef.GetAdminTypeID(AdminTypeId);
-                if (Admt !=null)
-                {
-                    return Ok(Admt);
-                }
-                else
-                {
-                    return BadRequest("Records are Not Available in the Database.....!");
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
-            }
-
         }
 
         [HttpPost]
-        [Route("InsertAdminType")]
-        public async Task<IActionResult> InsertAdminType([FromBody] AdminType Admtyp)
+        [Route("InsertLab")]
+
+        public async Task<IActionResult> InsertLab([FromBody] Lab lb)
         {
             try
             {
-                var count = await IAdmtypRef.InsertAdminType(Admtyp);
+                var count = await LabRef.InsertLab(lb);
                 if (count > 0)
                 {
                     return Ok(count);
@@ -81,21 +81,21 @@ namespace HCLSWebAPI.Controllers
                 {
                     return BadRequest("Record is Not Inserted.....!");
                 }
+
             }
             catch (Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
             }
-
         }
 
         [HttpPut]
-        [Route("UpdateAdminType")]
-        public async Task<IActionResult> UpdateAdminType([FromBody] AdminType Admtyp)
+        [Route("UpdateLab")]
+        public async Task<IActionResult> UpdateLab([FromBody] Lab lb)
         {
             try
             {
-                var count = await IAdmtypRef.UpdateAdminType(Admtyp);
+                var count = await LabRef.UpdateLab(lb);
                 if (count > 0)
                 {
                     return Ok(count);
@@ -104,22 +104,21 @@ namespace HCLSWebAPI.Controllers
                 {
                     return BadRequest("Records are Not Update in Database.....!");
                 }
+
             }
             catch (Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
+
             }
-
         }
-
-
         [HttpDelete]
-        [Route("DeleteAdminType")]
-        public async Task<IActionResult> DeleteAdminType(int AdminTypeId)
+        [Route("DeleteLab")]
+        public async Task<IActionResult> DeleteLab(int LabId)
         {
             try
             {
-                var count = await IAdmtypRef.DeleteAdminType(AdminTypeId);
+                var count = await LabRef.DeleteLab(LabId);
                 if (count > 0)
                 {
                     return Ok(count);
@@ -128,12 +127,12 @@ namespace HCLSWebAPI.Controllers
                 {
                     return BadRequest("Records are Not Delete in Database.....!");
                 }
+
             }
             catch (Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
             }
-
         }
     }
 }

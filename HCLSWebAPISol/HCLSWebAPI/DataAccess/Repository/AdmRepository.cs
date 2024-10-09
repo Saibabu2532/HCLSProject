@@ -39,14 +39,24 @@ namespace HCLSWebAPI.DataAccess.Repository
              return await AdmDb.Admins.ToListAsync();
         }
 
-        public async Task<Admin> GetLoginByEmailAndPassword(string Email, string Password)
+        public async Task<Admin> LoginByEmailAndPassword(string Email, string Password)
         {
-          return await AdmDb.Admins.Where(x=>x.Email==Email && Password==Password).SingleOrDefaultAsync();
+          return await AdmDb.Admins.Where(x=>x.Email==Email && x.Password==Password).SingleOrDefaultAsync();
         }
 
         public async Task<Admin> GetAdminByAdminEmail(string EMail)
         {
           return await AdmDb.Admins.Where(x=>x.Email==EMail).SingleOrDefaultAsync();
+        }
+
+        public async Task<Admin> GetAdminByAdminId(int AdminId)
+        {
+          return await  AdmDb.Admins.FindAsync(AdminId);
+        }
+
+        public async Task<List<Admin>> GetAdminTypeIdByAdmin(int AdminTypeId)
+        {
+         return  await AdmDb.Admins.Where(x=>x.AdminTypeId==AdminTypeId).ToListAsync();
         }
     }
 }

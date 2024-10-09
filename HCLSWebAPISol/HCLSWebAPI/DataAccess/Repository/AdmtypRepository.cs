@@ -28,6 +28,11 @@ namespace HCLSWebAPI.DataAccess.Repository
             return await AdmtypDb.SaveChangesAsync();
         }
 
+        public async Task<AdminType> GetAdminTypeID(int AdminTypeId)
+        {
+          return await AdmtypDb.AdminTypes.FindAsync(AdminTypeId);
+        }
+
         public async Task<int> InsertAdminType(AdminType Admtyp)
         {
            await AdmtypDb.AdminTypes.AddAsync(Admtyp);
