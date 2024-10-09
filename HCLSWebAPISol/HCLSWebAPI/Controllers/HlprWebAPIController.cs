@@ -1,78 +1,78 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using HCLSWebAPI.DataAccess;
-using System.Collections.Generic;
+﻿using HCLSWebAPI.DataAccess.IRepository;
 using HCLSWebAPI.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System;
-using HCLSWebAPI.DataAccess.IRepository;
 
 namespace HCLSWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdmtypWebAPIController : ControllerBase
+    public class HlprWebAPIController : ControllerBase
     {
-        public IAdmtypRepository IAdmtypRef;
-        public AdmtypWebAPIController(IAdmtypRepository _admtypRef)
+        public IHelpRepository HelpRef;
+        public HlprWebAPIController(IHelpRepository helpRef)
         {
-            IAdmtypRef = _admtypRef;
+            HelpRef = helpRef;
         }
 
-
         [HttpGet]
-        [Route("AllAdminTypes")]
-        public async Task<IActionResult> AllAdminTypes()
+        [Route("AllHelpers")]
+
+        public async Task<IActionResult> AllHelpers()
         {
             try
             {
-                var ListAdmtyp = await IAdmtypRef.AllAdminTypes();
-                if (ListAdmtyp.Count > 0)
+                var HelpList = await HelpRef.AllHelpers();
+                if (HelpList.Count > 0)
                 {
-                    return Ok(ListAdmtyp);
+                    return Ok(HelpList);
                 }
                 else
                 {
                     return BadRequest("Records are Not Available in the Database.....!");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
+            }
+        }
+
+        [HttpGet]
+        [Route("GetHelperByHelId")]
+
+        public async Task<IActionResult> GetHelperByHelId(int HelpId)
+        {
+            try
+            {
+                var help = await HelpRef.GetHelperByHelId(HelpId);
+                if (help != null)
+                {
+                    return Ok(help);
+                }
+                else
+                {
+                    return BadRequest("Records are Not Available in the Database.....!");
+
                 }
             }
             catch (Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
             }
-
-        }
-
-        [HttpGet]
-        [Route("GetAdminTypeID")]
-        public async Task<IActionResult> GetAdminTypeID(int AdminTypeId)
-        {
-            try
-            {
-                var Admt = await IAdmtypRef.GetAdminTypeID(AdminTypeId);
-                if (Admt !=null)
-                {
-                    return Ok(Admt);
-                }
-                else
-                {
-                    return BadRequest("Records are Not Available in the Database.....!");
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
-            }
-
         }
 
         [HttpPost]
-        [Route("InsertAdminType")]
-        public async Task<IActionResult> InsertAdminType([FromBody] AdminType Admtyp)
+        [Route("InsertHelper")]
+
+        public async Task<IActionResult> InsertHelper([FromBody] Helper help)
         {
             try
             {
-                var count = await IAdmtypRef.InsertAdminType(Admtyp);
+                var count = await HelpRef.InsertHelper(help);
                 if (count > 0)
                 {
                     return Ok(count);
@@ -81,21 +81,21 @@ namespace HCLSWebAPI.Controllers
                 {
                     return BadRequest("Record is Not Inserted.....!");
                 }
+
             }
             catch (Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
             }
-
         }
 
         [HttpPut]
-        [Route("UpdateAdminType")]
-        public async Task<IActionResult> UpdateAdminType([FromBody] AdminType Admtyp)
+        [Route("UpdateHelper")]
+        public async Task<IActionResult> UpdateHelper([FromBody] Helper help)
         {
             try
             {
-                var count = await IAdmtypRef.UpdateAdminType(Admtyp);
+                var count = await HelpRef.UpdateHelper(help);
                 if (count > 0)
                 {
                     return Ok(count);
@@ -104,22 +104,21 @@ namespace HCLSWebAPI.Controllers
                 {
                     return BadRequest("Records are Not Update in Database.....!");
                 }
+
             }
             catch (Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
+
             }
-
         }
-
-
         [HttpDelete]
-        [Route("DeleteAdminType")]
-        public async Task<IActionResult> DeleteAdminType(int AdminTypeId)
+        [Route("DeleteHelper")]
+        public async Task<IActionResult> DeleteHelper(int HelpId)
         {
             try
             {
-                var count = await IAdmtypRef.DeleteAdminType(AdminTypeId);
+                var count = await HelpRef.DeleteHelper(HelpId);
                 if (count > 0)
                 {
                     return Ok(count);
@@ -128,12 +127,12 @@ namespace HCLSWebAPI.Controllers
                 {
                     return BadRequest("Records are Not Delete in Database.....!");
                 }
+
             }
             catch (Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
             }
-
         }
     }
 }

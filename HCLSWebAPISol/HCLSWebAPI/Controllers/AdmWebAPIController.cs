@@ -106,6 +106,54 @@ namespace HCLSWebAPI.Controllers
         }
 
 
+        [HttpGet]
+        [Route("GetAdminByAdminId")]
+        public async Task<IActionResult> GetAdminByAdminId(int AdminId)
+        {
+            try
+            {
+                var Adm = await IAdmRef.GetAdminByAdminId(AdminId);
+                if (Adm != null)
+                {
+                    return Ok(Adm);
+                }
+                else
+                {
+                    return BadRequest("Record is Not Available in the Database.....!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
+            }
+
+        }
+
+        [HttpGet]
+        [Route("GetAdminTypeIdByAdmin")]
+        public async Task<IActionResult> GetAdminTypeIdByAdmin(int AdminTypeId)
+        {
+            try
+            {
+                var AdmList = await IAdmRef.GetAdminTypeIdByAdmin(AdminTypeId);
+                if (AdmList.Count>0)
+                {
+                    return Ok(AdmList);
+                }
+                else
+                {
+                    return BadRequest("Record is Not Available in the Database.....!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
+            }
+
+        }
+
+
+
         [HttpPut]
         [Route("UpadteAdmin")]
         public async Task<IActionResult> UpadteAdmin([FromBody] Admin Adm)

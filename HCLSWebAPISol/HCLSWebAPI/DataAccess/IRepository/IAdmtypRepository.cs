@@ -6,9 +6,10 @@ namespace HCLSWebAPI.DataAccess.IRepository
 {
     public interface IAdmtypRepository
     {
-       Task<List<AdminType>> AllAdminTypes();
-        Task<int> InsertAdminType(AdminType Admtyp);
-        Task<int> UpdateAdminType(AdminType Admtyp);
-        Task<int> DeleteAdminType(int AdminTypeId);
+        public Task<List<AdminType>> AllAdminTypes();
+        public Task<AdminType> GetAdminTypeID(int AdminTypeId);
+        public Task<int> InsertAdminType(AdminType Admtyp);
+        public Task<int> UpdateAdminType(AdminType Admtyp);
+        public Task<int> DeleteAdminType(int AdminTypeId);
     }
 }

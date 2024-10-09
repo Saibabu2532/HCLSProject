@@ -1,78 +1,78 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using HCLSWebAPI.DataAccess;
-using System.Collections.Generic;
+﻿using HCLSWebAPI.DataAccess.IRepository;
 using HCLSWebAPI.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System;
-using HCLSWebAPI.DataAccess.IRepository;
 
 namespace HCLSWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdmtypWebAPIController : ControllerBase
+    public class DctrSpecWebAPIController : ControllerBase
     {
-        public IAdmtypRepository IAdmtypRef;
-        public AdmtypWebAPIController(IAdmtypRepository _admtypRef)
+        public IDoctorSpecRepository DoctspeRef;
+        public DctrSpecWebAPIController(IDoctorSpecRepository _DoctspeRef)
         {
-            IAdmtypRef = _admtypRef;
+            DoctspeRef = _DoctspeRef;
         }
 
-
         [HttpGet]
-        [Route("AllAdminTypes")]
-        public async Task<IActionResult> AllAdminTypes()
+        [Route("AllDocSpecialization")]
+
+        public async Task<IActionResult> AllDocSpecialization()
         {
             try
             {
-                var ListAdmtyp = await IAdmtypRef.AllAdminTypes();
-                if (ListAdmtyp.Count > 0)
+                var DocSpecList = await DoctspeRef.AllDocSpecialization();
+                if (DocSpecList.Count > 0)
                 {
-                    return Ok(ListAdmtyp);
+                    return Ok(DocSpecList);
                 }
                 else
                 {
                     return BadRequest("Records are Not Available in the Database.....!");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
+            }
+        }
+
+        [HttpGet]
+        [Route("GetDocSpecializationId")]
+
+        public async Task<IActionResult> GetDocSpecializationId(int DocSpecId)
+        {
+            try
+            {
+                var DocSpec = await DoctspeRef.GetDocSpecializationId(DocSpecId);
+                if (DocSpec != null)
+                {
+                    return Ok(DocSpec);
+                }
+                else
+                {
+                    return BadRequest("Records are Not Available in the Database.....!");
+
                 }
             }
             catch (Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
             }
-
-        }
-
-        [HttpGet]
-        [Route("GetAdminTypeID")]
-        public async Task<IActionResult> GetAdminTypeID(int AdminTypeId)
-        {
-            try
-            {
-                var Admt = await IAdmtypRef.GetAdminTypeID(AdminTypeId);
-                if (Admt !=null)
-                {
-                    return Ok(Admt);
-                }
-                else
-                {
-                    return BadRequest("Records are Not Available in the Database.....!");
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
-            }
-
         }
 
         [HttpPost]
-        [Route("InsertAdminType")]
-        public async Task<IActionResult> InsertAdminType([FromBody] AdminType Admtyp)
+        [Route("InsertDocSpecialization")]
+
+        public async Task<IActionResult> InsertDocSpecialization([FromBody] DoctorSpecialization DocSpec)
         {
             try
             {
-                var count = await IAdmtypRef.InsertAdminType(Admtyp);
+                var count = await DoctspeRef.InsertDocSpecialization(DocSpec);
                 if (count > 0)
                 {
                     return Ok(count);
@@ -81,21 +81,21 @@ namespace HCLSWebAPI.Controllers
                 {
                     return BadRequest("Record is Not Inserted.....!");
                 }
+
             }
             catch (Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
             }
-
         }
 
         [HttpPut]
-        [Route("UpdateAdminType")]
-        public async Task<IActionResult> UpdateAdminType([FromBody] AdminType Admtyp)
+        [Route("UpdateDocSpecialization")]
+        public async Task<IActionResult> UpdateDocSpecialization([FromBody] DoctorSpecialization DocSpec)
         {
             try
             {
-                var count = await IAdmtypRef.UpdateAdminType(Admtyp);
+                var count = await DoctspeRef.UpdateDocSpecialization(DocSpec);
                 if (count > 0)
                 {
                     return Ok(count);
@@ -104,22 +104,21 @@ namespace HCLSWebAPI.Controllers
                 {
                     return BadRequest("Records are Not Update in Database.....!");
                 }
+
             }
             catch (Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
+
             }
-
         }
-
-
         [HttpDelete]
-        [Route("DeleteAdminType")]
-        public async Task<IActionResult> DeleteAdminType(int AdminTypeId)
+        [Route("DeleteDocSpecialization")]
+        public async Task<IActionResult> DeleteDocSpecialization(int DocSpecId)
         {
             try
             {
-                var count = await IAdmtypRef.DeleteAdminType(AdminTypeId);
+                var count = await DoctspeRef.DeleteDocSpecialization(DocSpecId);
                 if (count > 0)
                 {
                     return Ok(count);
@@ -128,12 +127,12 @@ namespace HCLSWebAPI.Controllers
                 {
                     return BadRequest("Records are Not Delete in Database.....!");
                 }
+
             }
             catch (Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
             }
-
         }
     }
 }

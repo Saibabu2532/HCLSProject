@@ -1,78 +1,79 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using HCLSWebAPI.DataAccess;
-using System.Collections.Generic;
+﻿using HCLSWebAPI.DataAccess.IRepository;
 using HCLSWebAPI.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System;
-using HCLSWebAPI.DataAccess.IRepository;
+using System.Text.RegularExpressions;
 
 namespace HCLSWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdmtypWebAPIController : ControllerBase
+    public class RecpWebAPIController : ControllerBase
     {
-        public IAdmtypRepository IAdmtypRef;
-        public AdmtypWebAPIController(IAdmtypRepository _admtypRef)
+        public IReceptionRepository RecpRef;
+        public RecpWebAPIController(IReceptionRepository recpRef)
         {
-            IAdmtypRef = _admtypRef;
+            RecpRef = recpRef;
         }
 
-
         [HttpGet]
-        [Route("AllAdminTypes")]
-        public async Task<IActionResult> AllAdminTypes()
+        [Route("GetAllReceptionists")]
+
+        public async Task<IActionResult> GetAllReceptionists()
         {
             try
             {
-                var ListAdmtyp = await IAdmtypRef.AllAdminTypes();
-                if (ListAdmtyp.Count > 0)
+                var RecList = await RecpRef.GetAllReceptionists();
+                if (RecList.Count > 0)
                 {
-                    return Ok(ListAdmtyp);
+                    return Ok(RecList);
                 }
                 else
                 {
                     return BadRequest("Records are Not Available in the Database.....!");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
+            }
+        }
+
+        [HttpGet]
+        [Route("GetReceptionByRecpId")]
+
+        public async Task<IActionResult> GetReceptionByRecpId(int RecpId)
+        {
+            try
+            {
+                var recep = await RecpRef.GetReceptionByRecpId(RecpId);
+                if (recep != null)
+                {
+                    return Ok(recep);
+                }
+                else
+                {
+                    return BadRequest("Records are Not Available in the Database.....!");
+
                 }
             }
             catch (Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
             }
-
-        }
-
-        [HttpGet]
-        [Route("GetAdminTypeID")]
-        public async Task<IActionResult> GetAdminTypeID(int AdminTypeId)
-        {
-            try
-            {
-                var Admt = await IAdmtypRef.GetAdminTypeID(AdminTypeId);
-                if (Admt !=null)
-                {
-                    return Ok(Admt);
-                }
-                else
-                {
-                    return BadRequest("Records are Not Available in the Database.....!");
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
-            }
-
         }
 
         [HttpPost]
-        [Route("InsertAdminType")]
-        public async Task<IActionResult> InsertAdminType([FromBody] AdminType Admtyp)
+        [Route("InsertReception")]
+
+        public async Task<IActionResult> InsertReception([FromBody] Receptionist recep)
         {
             try
             {
-                var count = await IAdmtypRef.InsertAdminType(Admtyp);
+                var count = await RecpRef.InsertReception(recep);
                 if (count > 0)
                 {
                     return Ok(count);
@@ -81,21 +82,21 @@ namespace HCLSWebAPI.Controllers
                 {
                     return BadRequest("Record is Not Inserted.....!");
                 }
+
             }
             catch (Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
             }
-
         }
 
         [HttpPut]
-        [Route("UpdateAdminType")]
-        public async Task<IActionResult> UpdateAdminType([FromBody] AdminType Admtyp)
+        [Route("UpdateReception")]
+        public async Task<IActionResult> UpdateReception([FromBody] Receptionist recep)
         {
             try
             {
-                var count = await IAdmtypRef.UpdateAdminType(Admtyp);
+                var count = await RecpRef.UpdateReception(recep);
                 if (count > 0)
                 {
                     return Ok(count);
@@ -104,22 +105,21 @@ namespace HCLSWebAPI.Controllers
                 {
                     return BadRequest("Records are Not Update in Database.....!");
                 }
+
             }
             catch (Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
+
             }
-
         }
-
-
         [HttpDelete]
-        [Route("DeleteAdminType")]
-        public async Task<IActionResult> DeleteAdminType(int AdminTypeId)
+        [Route("DeleteReception")]
+        public async Task<IActionResult> DeleteReception(int RecpId)
         {
             try
             {
-                var count = await IAdmtypRef.DeleteAdminType(AdminTypeId);
+                var count = await RecpRef.DeleteReception(RecpId);
                 if (count > 0)
                 {
                     return Ok(count);
@@ -128,12 +128,12 @@ namespace HCLSWebAPI.Controllers
                 {
                     return BadRequest("Records are Not Delete in Database.....!");
                 }
+
             }
             catch (Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
             }
-
         }
     }
 }

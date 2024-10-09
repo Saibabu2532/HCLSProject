@@ -1,78 +1,78 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using HCLSWebAPI.DataAccess;
-using System.Collections.Generic;
+﻿using HCLSWebAPI.DataAccess.IRepository;
 using HCLSWebAPI.Models;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
-using HCLSWebAPI.DataAccess.IRepository;
+using System.Threading.Tasks;
 
 namespace HCLSWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AdmtypWebAPIController : ControllerBase
+    public class DeptWebAPIController : ControllerBase
     {
-        public IAdmtypRepository IAdmtypRef;
-        public AdmtypWebAPIController(IAdmtypRepository _admtypRef)
+        public IDeptRepository IDeptRef;
+        public DeptWebAPIController(IDeptRepository _DeptRef)
         {
-            IAdmtypRef = _admtypRef;
+            IDeptRef= _DeptRef;
         }
 
-
         [HttpGet]
-        [Route("AllAdminTypes")]
-        public async Task<IActionResult> AllAdminTypes()
+        [Route("AllDepartments")]
+
+        public async Task<IActionResult> AllDepartments()
         {
             try
             {
-                var ListAdmtyp = await IAdmtypRef.AllAdminTypes();
-                if (ListAdmtyp.Count > 0)
+                var DeptList = await IDeptRef.AllDepartments();
+                if(DeptList.Count>0)
                 {
-                    return Ok(ListAdmtyp);
+                    return Ok(DeptList);
                 }
                 else
                 {
                     return BadRequest("Records are Not Available in the Database.....!");
                 }
+
             }
-            catch (Exception ex)
+            catch(Exception  ex) 
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
             }
-
         }
 
         [HttpGet]
-        [Route("GetAdminTypeID")]
-        public async Task<IActionResult> GetAdminTypeID(int AdminTypeId)
+        [Route("GetDepartmentNo")]
+
+        public async Task<IActionResult> GetDepartmentNo(int DeptNo)
         {
             try
             {
-                var Admt = await IAdmtypRef.GetAdminTypeID(AdminTypeId);
-                if (Admt !=null)
+                var Dept = await IDeptRef.GetDepartmentNo(DeptNo);
+                if (Dept != null)
                 {
-                    return Ok(Admt);
+                    return Ok(Dept);
                 }
                 else
                 {
                     return BadRequest("Records are Not Available in the Database.....!");
+
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
             }
-
         }
 
         [HttpPost]
-        [Route("InsertAdminType")]
-        public async Task<IActionResult> InsertAdminType([FromBody] AdminType Admtyp)
+        [Route("InsertDepartment")]
+
+        public async Task<IActionResult> InsertDepartment([FromBody] Department dept)
         {
             try
             {
-                var count = await IAdmtypRef.InsertAdminType(Admtyp);
+                var count = await IDeptRef.InsertDepartment(dept);
                 if (count > 0)
                 {
                     return Ok(count);
@@ -81,22 +81,22 @@ namespace HCLSWebAPI.Controllers
                 {
                     return BadRequest("Record is Not Inserted.....!");
                 }
+
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
             }
-
         }
 
         [HttpPut]
-        [Route("UpdateAdminType")]
-        public async Task<IActionResult> UpdateAdminType([FromBody] AdminType Admtyp)
+        [Route("UpdateDepartment")]
+        public async Task<IActionResult> UpdateDepartment([FromBody] Department dept)
         {
             try
             {
-                var count = await IAdmtypRef.UpdateAdminType(Admtyp);
-                if (count > 0)
+                var count = await IDeptRef.UpdateDepartment(dept);
+                if(count > 0)
                 {
                     return Ok(count);
                 }
@@ -104,23 +104,22 @@ namespace HCLSWebAPI.Controllers
                 {
                     return BadRequest("Records are Not Update in Database.....!");
                 }
+
             }
             catch (Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
+
             }
-
         }
-
-
         [HttpDelete]
-        [Route("DeleteAdminType")]
-        public async Task<IActionResult> DeleteAdminType(int AdminTypeId)
+        [Route("DeleteDepartment")]
+        public async Task<IActionResult> DeleteDepartment(int DeptNo)
         {
             try
             {
-                var count = await IAdmtypRef.DeleteAdminType(AdminTypeId);
-                if (count > 0)
+                var count = await IDeptRef.DeleteDepartment(DeptNo);
+                if(count>0)
                 {
                     return Ok(count);
                 }
@@ -128,12 +127,12 @@ namespace HCLSWebAPI.Controllers
                 {
                     return BadRequest("Records are Not Delete in Database.....!");
                 }
+
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return BadRequest("Somethig went Wrong ..!\n" + "Issue : " + ex.Message + ".\nwe will solve this issue soon ...1");
             }
-
         }
     }
 }

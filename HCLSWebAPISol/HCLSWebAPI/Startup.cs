@@ -34,6 +34,12 @@ namespace HCLSWebAPI
             services.AddDbContext<HCLSContextPro>(options => options.UseSqlServer(Configuration.GetConnectionString("ConStr")));
             services.AddTransient<IAdmtypRepository,AdmtypRepository>();
             services.AddTransient<IAdmRepository,AdmRepository>();
+            services.AddTransient<IDeptRepository, DeptRepository>();
+            services.AddTransient<IDoctorRepository, DoctorRepository>();
+            services.AddTransient<IDoctorSpecRepository, DoctorSpecRepository>();
+            services.AddTransient<IHelpRepository, HelpRepository>();
+            services.AddTransient<ILabRepository, LabRepository>();
+            services.AddTransient<IReceptionRepository, ReceptionRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,7 +67,7 @@ namespace HCLSWebAPI
 
             app.UseSwagger();
             app.UseSwaggerUI(c => {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API Pro");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Web API Pro");
             });
 
             app.UseAuthorization();
