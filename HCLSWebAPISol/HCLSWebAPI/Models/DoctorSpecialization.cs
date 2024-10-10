@@ -11,5 +11,6 @@ namespace HCLSWebAPI.Models
         public int DocSpecId { get; set; }
         public string  DocSpecialization { get; set; }
         public ICollection<Doctor> Doctors { get; set; }
+        public ICollection<Patient> Patients { get; set; }
     }
 }

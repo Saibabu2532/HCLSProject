@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -49,5 +50,6 @@ namespace HCLSWebAPI.Models
         [Required(ErrorMessage = "Please Enter DocSpecId ...!")]
         public int DocSpecId { get; set; }
         public DoctorSpecialization DoctorSpecialization { get; set; }
+        public ICollection<Patient> Patients { get; set; }
     }
 }

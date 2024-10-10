@@ -14,6 +14,6 @@ namespace HCLSWebAPI.Models
         public ICollection<Receptionist> Receptionists { get; set; }
         public ICollection<Helper> Helpers { get; set; }
         public ICollection<Lab> Labs { get; set; }
-        
+        public ICollection<Doctor> Doctor { get; set; }
     }
 }

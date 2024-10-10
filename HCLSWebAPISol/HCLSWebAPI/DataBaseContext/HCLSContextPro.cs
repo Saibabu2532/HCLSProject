@@ -14,6 +14,8 @@ namespace HCLSWebAPI.DataBaseContext
         public DbSet<Lab> Labs { get; set; }
         public DbSet<DoctorSpecialization> DoctorSpecializations { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<PatientStatus> PatientStatuses { get; set; }
+        public DbSet<Patient> Patients { get; set; }
 
     }
 }

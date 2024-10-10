@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -44,5 +45,6 @@ namespace HCLSWebAPI.Models
         [Required(ErrorMessage = "Please Enter DeptNpo ...!")]
         public int DeptNo { get; set; }
         public Department Department { get; set; }
+        public ICollection<Patient> Patients { get; set; }
     }
 }

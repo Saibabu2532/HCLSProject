@@ -5,14 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HCLSWebAPI.Models
 {
-    [Table("AdminType")]
-    public class AdminType
+    [Table("PatientStatus")]
+    public class PatientStatus
     {
-        
-
         [Key]
-        public int AdminTypeId { get; set; }
-        public string AdminTypeName { get; set; }
-        public ICollection<Admin>Admins { get; set; }
+        public int StatID { get; set; }
+        public string StatName { get; set; }
+
+        public ICollection<Patient> Patients { get; set; }
     }
 }
