@@ -40,6 +40,8 @@ namespace HCLSWebAPI
             services.AddTransient<IHelpRepository, HelpRepository>();
             services.AddTransient<ILabRepository, LabRepository>();
             services.AddTransient<IReceptionRepository, ReceptionRepository>();
+            services.AddTransient<IPatientStatusRepository,PateintStatusRepository>();
+            services.AddTransient<IPatientRepository,PatientRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
